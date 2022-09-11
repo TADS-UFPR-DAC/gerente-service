@@ -5,7 +5,6 @@ import bantads.conta.config.RabbitMQConfig.Companion.FILA_DELETAR_CONTA
 import bantads.gerente.exception.ApiRequestException
 import bantads.gerente.model.Gerente
 import bantads.gerente.repository.GerenteRepository
-import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.core.Message
