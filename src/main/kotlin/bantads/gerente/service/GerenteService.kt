@@ -1,7 +1,7 @@
 package bantads.gerente.service
 
 import bantads.conta.config.RabbitMQConfig
-import bantads.conta.config.RabbitMQConfig.Companion.FILA_DELETAR_CONTA
+import bantads.conta.config.RabbitMQConfig.Companion.FILA_DELETAR_GERENTE
 import bantads.gerente.exception.ApiRequestException
 import bantads.gerente.model.Gerente
 import bantads.gerente.repository.GerenteRepository
@@ -65,9 +65,9 @@ class GerenteService {
 
     @RabbitListener(
         bindings = [QueueBinding(
-            value = Queue(FILA_DELETAR_CONTA),
-            exchange = Exchange(name = RabbitMQConfig.CONTA_EXCHANGE),
-            key = arrayOf(RabbitMQConfig.CHAVE_DELETAR_CONTA)
+            value = Queue(FILA_DELETAR_GERENTE),
+            exchange = Exchange(name = RabbitMQConfig.GERENTE_EXCHANGE),
+            key = arrayOf(RabbitMQConfig.CHAVE_DELETAR_GERENTE)
         )]
     )
     fun deleteQueue(message: Message?, gerente: Gerente) {

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 class RabbitMQConfig {
     @Bean
     fun contaExchange(): DirectExchange {
-        return DirectExchange(CONTA_EXCHANGE)
+        return DirectExchange(GERENTE_EXCHANGE)
     }
 
     @Bean
@@ -19,7 +19,7 @@ class RabbitMQConfig {
 
     @Bean
     fun deletarContaQueue(): Queue {
-        return QueueBuilder.durable(FILA_DELETAR_CONTA).build()
+        return QueueBuilder.durable(FILA_DELETAR_GERENTE).build()
     }
 
     @Bean
@@ -29,7 +29,7 @@ class RabbitMQConfig {
 
     @Bean
     fun deletarContaBinding(): Binding {
-        return BindingBuilder.bind(deletarContaQueue()).to(contaExchange()).with(CHAVE_DELETAR_CONTA)
+        return BindingBuilder.bind(deletarContaQueue()).to(contaExchange()).with(CHAVE_DELETAR_GERENTE)
     }
 
     @Bean
@@ -38,11 +38,11 @@ class RabbitMQConfig {
     }
 
     companion object {
-        const val CONTA_EXCHANGE = "conta"
+        const val GERENTE_EXCHANGE = "gerente"
         const val MENSAGEM_EXCHANGE = "mensagem"
-        const val FILA_DELETAR_CONTA = "DeletarContaQueue"
-        const val FILA_MENSAGEM = "MensagemQueue"
-        const val CHAVE_DELETAR_CONTA = "deletarConta"
+        const val FILA_DELETAR_GERENTE = "DeletarGerenteQueue"
+        const val FILA_MENSAGEM = "gerenteQueue"
+        const val CHAVE_DELETAR_GERENTE = "deletarGerente"
         const val CHAVE_MENSAGEM = "mensagem"
     }
 }
