@@ -1,11 +1,15 @@
 package bantads.gerente.service
 
+import bantads.conta.config.RabbitMQConfig
+import bantads.conta.config.RabbitMQConfig.Companion.FILA_DELETAR_CONTA
 import bantads.gerente.exception.ApiRequestException
-import bantads.gerente.exception.GerenteException
 import bantads.gerente.model.Gerente
 import bantads.gerente.repository.GerenteRepository
+import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.amqp.core.Message
+import org.springframework.amqp.rabbit.annotation.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -58,6 +62,18 @@ class GerenteService {
         logger.info("--- DELETING USER: $id ---");
         gerenteRepository.deleteById(id);
         return ResponseEntity("Resource deleted!", HttpStatus.OK);
+    }
+
+    @RabbitListener(
+        bindings = [QueueBinding(
+            value = Queue(FILA_DELETAR_CONTA),
+            exchange = Exchange(name = RabbitMQConfig.CONTA_EXCHANGE),
+            key = arrayOf(RabbitMQConfig.CHAVE_DELETAR_CONTA)
+        )]
+    )
+    fun deleteQueue(message: Message?, gerente: Gerente) {
+        logger.info("Deletando conta do usuário de id " + gerente.id)
+        gerente.id?.let { deleteService(it) }
     }
 
 
